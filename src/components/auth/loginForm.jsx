@@ -24,6 +24,8 @@ const LoginForm = () => {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
         setMessage("Connexion réussie ✅");
         console.log("Connexion réussie ✅ \n User:", data.user);
         
