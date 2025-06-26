@@ -1,12 +1,54 @@
-# React + Vite
+ Projet - Application de Réservation de Terrain Foot à 5 (Front-End)
+👤 Nom Prénom :
+KHINOUCHE MEHDI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+✅ Fonctionnalités principales
+Authentification (inscription, connexion)
 
-Currently, two official plugins are available:
+Routes protégées selon le statut connecté
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Navigation entre pages avec React Router DOM
 
-## Expanding the ESLint configuration
+Affichage des terrains avec détails dynamiques (image, type, climatisation, prix)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Visualisation des créneaux disponibles avec possibilité de réserver
+
+Paiement en ligne via Stripe (redirection + confirmation)
+
+Historique des réservations personnelles
+
+Modification ou annulation d’une réservation
+
+Barre de navigation fixe et responsive
+
+🎁 Bonus implémentés
+🌗 Thème sombre / clair avec bouton de toggle
+
+🔄 Système multilingue (i18n : FR / EN)
+
+⚙️ Gestion globale de l’état avec React Context
+
+🔔 Notifications pour erreurs / succès (UI Feedback)
+
+🌀 Loader pendant les appels API
+
+❌ Affichage en cas d’absence de réponse de l’API
+
+🎨 Animation des cartes lors du scroll
+
+📱 Site full responsive (Mobile First)
+
+✅ CSS classique uniquement (pas de Bootstrap, ni Tailwind)
+
+📁 Stack et Tech utilisées
+ReactJS (Vite)
+
+CSS Vanilla
+
+React Router DOM
+
+React Context + Hooks personnalisés
+
+i18n (internationalisation)
+
+Stripe (paiement sécurisé)

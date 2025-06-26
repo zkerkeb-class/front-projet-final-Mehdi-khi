@@ -1,0 +1,84 @@
+/* success.css */
+
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: var(--bg);
+  padding: 2rem;
+}
+
+.success-box {
+  background: var(--card);
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.icon-box {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.icon.success {
+  color: #28a745;
+}
+
+.icon.error {
+  color: #dc3545;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.resume {
+  background-color: #f2f9f2;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+  font-size: 1rem;
+  color: var(--text);
+  border-left: 4px solid var(--primary);
+}
+
+.resume p {
+  margin: 0.3rem 0;
+}
+
+.success-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.success-actions button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.success-actions button:hover {
+  background-color: #387a3a;
+}
+
+@media (max-width: 600px) {
+  .success-box {
+    padding: 1.5rem;
+  }
+  .success-actions button {
+    width: 100%;
+  }
+}

@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/authContext"; // ajoute bien ça
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-
+  const { login } = useAuth(); // hook venant du contexte
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,17 +22,13 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem("token", data.token);
+        login(data.token); // ✅ on utilise le contexte ici
         localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("userId", data.user.id);
 
         setMessage("Connexion réussie ✅");
         console.log("Connexion réussie ✅ \n User:", data.user);
-        
-       localStorage.setItem("token", data.token);
-       navigate("/dashboard");
-
-
-        
+        navigate("/dashboard");
       } else {
         setMessage("Erreur : " + data.message);
       }

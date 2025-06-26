@@ -1,0 +1,19 @@
+:root {
+  --background: #f4f9f4;     
+  --text: #274027;           
+  --primary: #569153;        
+  --primary-dark: #447841;   
+  --secondary: #ffffff;
+  --danger: #dc3545;
+  --navbar-bg: #0a8902;
+}
+
+[data-theme="dark"] {
+  --background: #122112;     
+  --text: #f4f9f4;           
+  --primary: #569153;        
+  --primary-dark: #385f36;   
+  --secondary: #1e1e1e;
+  --danger: #f28b82;
+  --navbar-bg: #0a8902;
+}
