@@ -1,0 +1,65 @@
+{
+  "navbar": {
+    "home": "Home",
+    "reservations": "My bookings",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "home": {
+    "slogan": "Book your 5-a-side football pitch in 3 clicks!",
+    "step1": "✅ Create an account",
+    "step2": "✅ Choose a time slot",
+    "step3": "✅ Pay and play",
+    "start": "Get started"
+  },
+  "login": {
+    "title": "Login"
+  },
+  "register": {
+    "title": "Register"
+  },
+  "dashboard": {
+    "welcome": "Hello {{name}}, welcome to Five Center",
+    "subtitle": "Book your football pitch in a few clicks 👇",
+    "type": "Type",
+    "clim": "Air conditioning",
+    "surface": "Surface",
+    "price": "Price",
+    "book": "Book",
+    "clim_yes": "Yes",
+    "clim_no": "No",
+    "climatised": "Air-conditioned"
+  },
+  "creneaux": {
+    "choose": "Choose an available time slot 👇",
+    "type": "Type",
+    "clim": "Air conditioning",
+    "surface": "Surface",
+    "price": "Price",
+    "yes": "Yes",
+    "no": "No",
+    "reserved": "Reserved",
+    "book": "Book"
+  },
+  "reservation": {
+    "title": "My Reservations",
+    "none": "📭 No reservations found at the moment.",
+    "past": "🕘 Past",
+    "upcoming": "📅 Upcoming",
+    "cancel": "❌ Cancel",
+    "edit": "✏️ Edit",
+    "choose_new": "Choose a new time slot",
+    "confirm": "✅ Confirm change"
+  },
+  "success": {
+    "title_success": "Booking confirmed after payment!",
+    "title_error": "Error during confirmation.",
+    "field_terrain": "Pitch",
+    "field_date": "Date",
+    "field_time": "Time",
+    "field_price": "Price",
+    "home": "🏠 Home",
+    "my_reservations": "📋 My bookings"
+  }
+}

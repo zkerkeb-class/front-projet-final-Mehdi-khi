@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
-import "./success.css";
+import Navbar from "../../components/layout/Navbar";
+import "./style.css";
 
 const Success = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
@@ -58,22 +60,22 @@ const Success = () => {
 
           <h2>
             {confirmation
-              ? "Réservation confirmée après paiement !"
-              : "Erreur lors de la confirmation."}
+              ? t("success.title_success")
+              : t("success.title_error")}
           </h2>
 
           {details && (
             <div className="resume">
-              <p><strong>Terrain :</strong> {details.terrain?.nom}</p>
-              <p><strong>Date :</strong> {details.date}</p>
-              <p><strong>Heure :</strong> {details.heure}</p>
-              <p><strong>Prix :</strong> {details.terrain?.prix} €</p>
+              <p><strong>{t("success.field_terrain")}</strong> {details.terrain?.nom}</p>
+              <p><strong>{t("success.field_date")}</strong> {details.date}</p>
+              <p><strong>{t("success.field_time")}</strong> {details.heure}</p>
+              <p><strong>{t("success.field_price")}</strong> {details.terrain?.prix} €</p>
             </div>
           )}
 
           <div className="success-actions">
-            <button onClick={() => navigate("/dashboard")}>🏠 Accueil</button>
-            <button onClick={() => navigate("/mes-reservations")}>📋 Mes réservations</button>
+            <button onClick={() => navigate("/dashboard")}>{t("success.home")}</button>
+            <button onClick={() => navigate("/mes-reservations")}>{t("success.my_reservations")}</button>
           </div>
         </div>
       </div>

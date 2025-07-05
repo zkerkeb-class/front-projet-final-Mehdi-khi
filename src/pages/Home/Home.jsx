@@ -1,26 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './HomePage.css'; // pour les styles
+import { useTranslation } from 'react-i18next';
+import './HomePage.css';
 
 const HomePage = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="home-page">
-      {/* Overlay sombre par-dessus l'image */}
       <div className="overlay">
-        {/* Header */}
         <header className="header">
           <div className="logo">⚽ Five Center</div>
         </header>
 
-        {/* Slogan + bouton */}
         <main className="main-content">
-          <h1>Réservez votre terrain de foot 5 en 3 clics !</h1>
+          <h1>{t("home.slogan")}</h1>
           <ul>
-            <li>✅ Créez un compte</li>
-            <li>✅ Choisissez un créneau</li>
-            <li>✅ Payez et jouez</li>
+            <li>{t("home.step1")}</li>
+            <li>{t("home.step2")}</li>
+            <li>{t("home.step3")}</li>
           </ul>
-          <Link to="/login" className="cta-button">Commencer</Link>
+          <Link to="/login" className="cta-button">{t("home.start")}</Link>
         </main>
       </div>
     </div>

@@ -56,3 +56,34 @@
     margin-top: 0.5rem;
   }
 }
+
+.navbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Sélecteur de langue */
+.navbar-controls select {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Pour options du menu déroulant */
+.navbar-controls select option {
+  color: black;
+  background-color: white;
+}
+
+/* Responsive mobile */
+@media (max-width: 600px) {
+  .navbar-controls {
+    margin-top: 0.5rem;
+    align-self: flex-end;
+  }
+}

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/authContext"; // ajoute bien ça
+import { useAuth } from "../../context/authContext";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth(); // hook venant du contexte
+  const { login } = useAuth(); // ✅ on récupère le login complet du context
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,19 +16,24 @@ const LoginForm = () => {
       const res = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email,  password }), 
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        login(data.token); // ✅ on utilise le contexte ici
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("userId", data.user.id);
+        // ✅ on stocke token + user dans le contexte global
+        login(data.token, data.user);
 
         setMessage("Connexion réussie ✅");
         console.log("Connexion réussie ✅ \n User:", data.user);
-        navigate("/dashboard");
+
+        // Redirection selon le rôle
+        if (data.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setMessage("Erreur : " + data.message);
       }

@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/layout/Navbar";
-import "./res.css";
+import { useTranslation } from "react-i18next";
+import Navbar from "../../components/layout/Navbar";
+import "./style.css";
 
 const Reservation = () => {
+  const { t } = useTranslation();
   const [reservations, setReservations] = useState([]);
   const [creneauxDisponibles, setCreneauxDisponibles] = useState([]);
   const [terrainSelectionne, setTerrainSelectionne] = useState(null);
   const [creneauAModifier, setCreneauAModifier] = useState(null);
   const [creneauChoisi, setCreneauChoisi] = useState(null);
+  const [filtre, setFiltre] = useState("toutes"); // "toutes", "passees", "a_venir"
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -25,16 +28,20 @@ const Reservation = () => {
   }, [userId]);
 
   const handleAnnuler = async (id) => {
+    const confirm = window.confirm(t("reservation.confirm_cancel"));
+    if (!confirm) return;
     await fetch(`http://localhost:3000/api/reservations/${id}`, { method: "DELETE" });
     setReservations(reservations.filter(r => r._id !== id));
   };
 
   const handleModifier = async (reservation) => {
+    if (!reservation.creneauId?.terrainId?._id) return;
     setCreneauAModifier(reservation);
     setTerrainSelectionne(reservation.creneauId.terrainId._id);
     const res = await fetch(`http://localhost:3000/api/creneaux/${reservation.creneauId.terrainId._id}`);
     const data = await res.json();
-    setCreneauxDisponibles(data);
+    // ne garder que les créneaux disponibles
+    setCreneauxDisponibles(data.filter(c => c.disponible));
   };
 
   const confirmerModification = async () => {
@@ -53,50 +60,82 @@ const Reservation = () => {
     return d < now;
   };
 
+  const filtrerReservations = () => {
+    if (filtre === "passees") {
+      return reservations.filter(r => estPasse(r.creneauId.date, r.creneauId.heure));
+    } else if (filtre === "a_venir") {
+      return reservations.filter(r => !estPasse(r.creneauId.date, r.creneauId.heure));
+    }
+    return reservations;
+  };
+
   return (
     <>
       <Navbar />
       <div className="container">
-        <h2>Mes Réservations</h2>
+        <h2>{t("reservation.title")}</h2>
 
-        {reservations.map((reservation) => {
-          const terrain = reservation.creneauId.terrainId;
-          const estExpire = estPasse(reservation.creneauId.date, reservation.creneauId.heure);
+        {/* Filtres */}
+        <div className="filters">
+          <button onClick={() => setFiltre("toutes")}>📋 {t("reservation.all")}</button>
+          <button onClick={() => setFiltre("a_venir")}>📅 {t("reservation.upcoming")}</button>
+          <button onClick={() => setFiltre("passees")}>🕘 {t("reservation.past")}</button>
+        </div>
+
+        {filtrerReservations().length === 0 && (
+          <div className="no-reservation">
+            <p>{t("reservation.none")}</p>
+          </div>
+        )}
+
+        {filtrerReservations().map((reservation) => {
+          const terrain = reservation?.creneauId?.terrainId ?? {};
+          const date = reservation?.creneauId?.date;
+          const heure = reservation?.creneauId?.heure;
+          const estExpire = date && heure ? estPasse(date, heure) : true;
+          const estSelectionne = creneauAModifier?._id === reservation._id;
 
           return (
-            <div className="reservation-card" key={reservation._id}>
+            <div className={`reservation-card ${estExpire ? "expired" : ""}`} key={reservation._id}>
               <img
-                src={`http://localhost:3000${terrain?.image}`}
+                src={`http://localhost:3000${terrain.image || ""}`}
                 alt={terrain.nom || "Terrain"}
                 className="terrain-image"
               />
               <div className="info-zone">
-                <h3>{terrain.nom}</h3>
-                <p>{reservation.creneauId.date} à {reservation.creneauId.heure}</p>
+                <h3>{terrain.nom || "Terrain inconnu"}</h3>
+                <p>{date} à {heure}</p>
                 <span className={`badge ${estExpire ? "past" : "upcoming"}`}>
-                  {estExpire ? "Passée" : "À venir"}
+                  {estExpire ? t("reservation.past") : t("reservation.upcoming")}
                 </span>
               </div>
 
               <div className="reservation-actions">
-                <button onClick={() => handleAnnuler(reservation._id)}>❌ Annuler</button>
-                <button onClick={() => handleModifier(reservation)}>✏️ Modifier</button>
+                {!estExpire && (
+                  <>
+                    <button onClick={() => handleAnnuler(reservation._id)}>{t("reservation.cancel")}</button>
+                    <button onClick={() => handleModifier(reservation)}>{t("reservation.edit")}</button>
+                  </>
+                )}
               </div>
 
-              {creneauAModifier?._id === reservation._id && (
+              {estSelectionne && (
                 <div className="modification-zone">
-                  <h4>Choisir un nouveau créneau</h4>
+                  <h4>{t("reservation.choose_new")}</h4>
                   <ul>
                     {creneauxDisponibles.map((c) => (
                       <li key={c._id}>
-                        <button onClick={() => setCreneauChoisi(c._id)}>
+                        <button
+                          onClick={() => setCreneauChoisi(c._id)}
+                          className={creneauChoisi === c._id ? "selected" : ""}
+                        >
                           {c.date} à {c.heure}
                         </button>
                       </li>
                     ))}
                   </ul>
                   <button onClick={confirmerModification} className="confirmer-btn">
-                    ✅ Confirmer le changement
+                    {t("reservation.confirm")}
                   </button>
                 </div>
               )}

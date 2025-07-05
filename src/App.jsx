@@ -1,12 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/login/Login.jsx";
+import Register from "./pages/register/Register.jsx";
 import HomePage from "./pages/Home/Home";
-import DashboardPage from "./pages/Dashboard";
-import CreneauxPage from "./pages/CreneauxPage.jsx";
-import Reservation from "./pages/Reservation";
-import Success from "./pages/Success";
-import PrivateRoute from "./routes/ProtectedRoute.jsx";
+import DashboardPage from "./pages/Dashboard/Dashboard.jsx";
+import CreneauxPage from "./pages/creneaux/CreneauxPage.jsx";
+import Reservation from "./pages/reservation/Reservation.jsx";
+import Success from "./pages/success/Success";
+import ProtectedRoute from './routes/ProtectedRoute';
+
 
 import './styles/reset.css';
 import './styles/variables.css';
@@ -20,19 +21,19 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={
-        <PrivateRoute>
+        <ProtectedRoute>
           <DashboardPage />
-        </PrivateRoute>
+        </ProtectedRoute>
       } />
       <Route path="/reservation/:terrainId" element={
-        <PrivateRoute>
+        <ProtectedRoute>
           <CreneauxPage />
-        </PrivateRoute>
+        </ProtectedRoute>
       } />
       <Route path="/mes-reservations" element={
-        <PrivateRoute>
+        <ProtectedRoute>
           <Reservation />
-        </PrivateRoute>
+        </ProtectedRoute>
       } />
       <Route path="/success" element={<Success />} />
     </Routes>

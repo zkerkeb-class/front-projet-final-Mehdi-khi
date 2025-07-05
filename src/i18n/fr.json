@@ -1,0 +1,68 @@
+{
+  "navbar": {
+    "home": "Accueil",
+    "reservations": "Mes réservations",
+    "notifications": "Notifications",
+    "profile": "Mon profil",
+    "logout": "Déconnexion"
+  },
+  "home": {
+    "slogan": "Réservez votre terrain de foot 5 en 3 clics !",
+    "step1": "✅ Créez un compte",
+    "step2": "✅ Choisissez un créneau",
+    "step3": "✅ Payez et jouez",
+    "start": "Commencer"
+  },
+  "login": {
+    "title": "Connexion"
+  },
+  "register": {
+    "title": "Inscription"
+  },
+  "dashboard": {
+    "welcome": "Bonjour {{name}}, bienvenue sur Five Center",
+    "subtitle": "Réservez votre terrain de foot en quelques clics 👇",
+    "type": "Type",
+    "clim": "Climatisation",
+    "surface": "Surface",
+    "price": "Prix",
+    "book": "Réserver",
+    "clim_yes": "Oui",
+    "clim_no": "Non",
+    "climatised": "Climatisé"
+  },
+  "creneaux": {
+    "choose": "Choisissez un créneau disponible 👇",
+    "type": "Type",
+    "clim": "Climatisation",
+    "surface": "Surface",
+    "price": "Prix",
+    "yes": "Oui",
+    "no": "Non",
+    "reserved": "Réservé",
+    "book": "Réserver"
+  },
+  "reservation": {
+  "title": "Mes Réservations",
+  "none": "📭 Aucune réservation trouvée pour le moment.",
+  "past": "🕘 Passée",
+  "upcoming": "📅 À venir",
+  "cancel": "❌ Annuler",
+  "edit": "✏️ Modifier",
+  "choose_new": "Choisir un nouveau créneau",
+  "confirm": "✅ Confirmer le changement",
+  "all": "Toutes",
+  "confirm_cancel": "Es-tu sûr de vouloir annuler cette réservation ?"
+}
+,
+  "success": {
+    "title_success": "Réservation confirmée après paiement !",
+    "title_error": "Erreur lors de la confirmation.",
+    "field_terrain": "Terrain",
+    "field_date": "Date",
+    "field_time": "Heure",
+    "field_price": "Prix",
+    "home": "🏠 Accueil",
+    "my_reservations": "📋 Mes réservations"
+  }
+}
