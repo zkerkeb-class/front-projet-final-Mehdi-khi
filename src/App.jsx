@@ -7,6 +7,8 @@ import CreneauxPage from "./pages/creneaux/CreneauxPage.jsx";
 import Reservation from "./pages/reservation/Reservation.jsx";
 import Success from "./pages/success/Success";
 import ProtectedRoute from './routes/ProtectedRoute';
+import Profile from "./pages/profile/profile.jsx";
+import Notifications  from "./pages/notifications/notificatons.jsx";
 
 
 import './styles/reset.css';
@@ -36,6 +38,17 @@ function App() {
         </ProtectedRoute>
       } />
       <Route path="/success" element={<Success />} />
+      <Route path="/profile" element={
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      } />
+
+      <Route path="/notifications" element={
+        <ProtectedRoute>
+          <Notifications />
+        </ProtectedRoute>
+      } />
     </Routes>
   );
 }
