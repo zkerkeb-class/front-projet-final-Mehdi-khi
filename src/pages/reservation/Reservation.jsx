@@ -10,7 +10,7 @@ const Reservation = () => {
   const [terrainSelectionne, setTerrainSelectionne] = useState(null);
   const [creneauAModifier, setCreneauAModifier] = useState(null);
   const [creneauChoisi, setCreneauChoisi] = useState(null);
-  const [filtre, setFiltre] = useState("toutes"); // "toutes", "passees", "a_venir"
+  const [filtre, setFiltre] = useState("toutes");
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {
@@ -40,18 +40,28 @@ const Reservation = () => {
     setTerrainSelectionne(reservation.creneauId.terrainId._id);
     const res = await fetch(`http://localhost:3000/api/creneaux/${reservation.creneauId.terrainId._id}`);
     const data = await res.json();
-    // ne garder que les créneaux disponibles
-    setCreneauxDisponibles(data.filter(c => c.disponible));
+    const maintenant = new Date();
+    const creneauxFiltres = data.filter(c =>
+      c.disponible &&
+      new Date(`${c.date}T${c.heure}`) > maintenant
+    );
+    setCreneauxDisponibles(creneauxFiltres);
   };
 
   const confirmerModification = async () => {
+    const confirmer = window.confirm(t("reservation.confirm_change"));
+    if (!confirmer) return;
     if (!creneauChoisi || !creneauAModifier) return;
-    await fetch(`http://localhost:3000/api/reservations/${creneauAModifier._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nouveauCreneauId: creneauChoisi }),
-    });
-    window.location.reload();
+    try {
+      await fetch(`http://localhost:3000/api/reservations/${creneauAModifier._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nouveauCreneauId: creneauChoisi }),
+      });
+      window.location.reload();
+    } catch (err) {
+      console.error("Erreur modification créneau :", err);
+    }
   };
 
   const estPasse = (date, heure) => {
@@ -61,12 +71,15 @@ const Reservation = () => {
   };
 
   const filtrerReservations = () => {
+    const valides = reservations.filter(r =>
+      r?.creneauId?.terrainId && r?.creneauId?.date && r?.creneauId?.heure
+    );
     if (filtre === "passees") {
-      return reservations.filter(r => estPasse(r.creneauId.date, r.creneauId.heure));
+      return valides.filter(r => estPasse(r.creneauId.date, r.creneauId.heure));
     } else if (filtre === "a_venir") {
-      return reservations.filter(r => !estPasse(r.creneauId.date, r.creneauId.heure));
+      return valides.filter(r => !estPasse(r.creneauId.date, r.creneauId.heure));
     }
-    return reservations;
+    return valides;
   };
 
   return (
@@ -75,11 +88,25 @@ const Reservation = () => {
       <div className="container">
         <h2>{t("reservation.title")}</h2>
 
-        {/* Filtres */}
         <div className="filters">
-          <button onClick={() => setFiltre("toutes")}>📋 {t("reservation.all")}</button>
-          <button onClick={() => setFiltre("a_venir")}>📅 {t("reservation.upcoming")}</button>
-          <button onClick={() => setFiltre("passees")}>🕘 {t("reservation.past")}</button>
+          <button
+            onClick={() => setFiltre("toutes")}
+            className={`btn-secondary ${filtre === "toutes" ? "active" : ""}`}
+          >
+            📋 {t("reservation.all")}
+          </button>
+          <button
+            onClick={() => setFiltre("a_venir")}
+            className={`btn-secondary ${filtre === "a_venir" ? "active" : ""}`}
+          >
+            📅 {t("reservation.upcoming")}
+          </button>
+          <button
+            onClick={() => setFiltre("passees")}
+            className={`btn-secondary ${filtre === "passees" ? "active" : ""}`}
+          >
+            🕘 {t("reservation.past")}
+          </button>
         </div>
 
         {filtrerReservations().length === 0 && (
@@ -89,10 +116,10 @@ const Reservation = () => {
         )}
 
         {filtrerReservations().map((reservation) => {
-          const terrain = reservation?.creneauId?.terrainId ?? {};
-          const date = reservation?.creneauId?.date;
-          const heure = reservation?.creneauId?.heure;
-          const estExpire = date && heure ? estPasse(date, heure) : true;
+          const terrain = reservation.creneauId.terrainId;
+          const date = reservation.creneauId.date;
+          const heure = reservation.creneauId.heure;
+          const estExpire = estPasse(date, heure);
           const estSelectionne = creneauAModifier?._id === reservation._id;
 
           return (
@@ -103,21 +130,23 @@ const Reservation = () => {
                 className="terrain-image"
               />
               <div className="info-zone">
-                <h3>{terrain.nom || "Terrain inconnu"}</h3>
+                <h3>{terrain.nom}</h3>
                 <p>{date} à {heure}</p>
                 <span className={`badge ${estExpire ? "past" : "upcoming"}`}>
                   {estExpire ? t("reservation.past") : t("reservation.upcoming")}
                 </span>
               </div>
 
-              <div className="reservation-actions">
-                {!estExpire && (
-                  <>
-                    <button onClick={() => handleAnnuler(reservation._id)}>{t("reservation.cancel")}</button>
-                    <button onClick={() => handleModifier(reservation)}>{t("reservation.edit")}</button>
-                  </>
-                )}
-              </div>
+              {!estExpire && (
+                <div className="reservation-actions">
+                  <button className="btn" onClick={() => handleAnnuler(reservation._id)}>
+                    {t("reservation.cancel")}
+                  </button>
+                  <button className="btn" onClick={() => handleModifier(reservation)}>
+                    {t("reservation.edit")}
+                  </button>
+                </div>
+              )}
 
               {estSelectionne && (
                 <div className="modification-zone">
@@ -126,15 +155,15 @@ const Reservation = () => {
                     {creneauxDisponibles.map((c) => (
                       <li key={c._id}>
                         <button
+                          className={`btn-secondary ${creneauChoisi === c._id ? "active" : ""}`}
                           onClick={() => setCreneauChoisi(c._id)}
-                          className={creneauChoisi === c._id ? "selected" : ""}
                         >
                           {c.date} à {c.heure}
                         </button>
                       </li>
                     ))}
                   </ul>
-                  <button onClick={confirmerModification} className="confirmer-btn">
+                  <button className="btn-confirm" onClick={confirmerModification}>
                     {t("reservation.confirm")}
                   </button>
                 </div>

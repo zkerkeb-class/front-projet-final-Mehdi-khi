@@ -50,7 +50,9 @@
     "cancel": "❌ Cancel",
     "edit": "✏️ Edit",
     "choose_new": "Choose a new time slot",
-    "confirm": "✅ Confirm change"
+    "confirm": "✅ Confirm change",
+    "confirm_change": "Are you sure you want to change this reservation?"
+
   },
   "success": {
     "title_success": "Booking confirmed after payment!",

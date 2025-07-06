@@ -52,7 +52,8 @@
   "choose_new": "Choisir un nouveau créneau",
   "confirm": "✅ Confirmer le changement",
   "all": "Toutes",
-  "confirm_cancel": "Es-tu sûr de vouloir annuler cette réservation ?"
+  "confirm_cancel": "Es-tu sûr de vouloir annuler cette réservation ?",
+  "confirm_change": "Es-tu sûr de vouloir modifier cette réservation ?"
 }
 ,
   "success": {
